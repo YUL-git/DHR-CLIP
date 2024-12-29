@@ -36,9 +36,9 @@ def test(args):
     logger = get_logger(args.save_path)
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
-    AnomalyCLIP_parameters = {"Abnormal_Prompt_length": args.ab_ctx, "Prompt_length": args.n_ctx, "learnabel_text_embedding_depth": args.depth, "learnabel_text_embedding_length": args.t_n_ctx}
+    DHRCLIP_parameters = {"Abnormal_Prompt_length": args.ab_ctx, "Prompt_length": args.n_ctx, "learnabel_text_embedding_depth": args.depth, "learnabel_text_embedding_length": args.t_n_ctx}
     
-    model, _ = DHRCLIP_lib.load("ViT-L/14@336px", device=device, design_details = AnomalyCLIP_parameters)
+    model, _ = DHRCLIP_lib.load("ViT-L/14@336px", device=device, design_details = DHRCLIP_parameters)
     model.eval()
 
     preprocess, target_transform, patch_transform = get_transform(args)
@@ -61,7 +61,7 @@ def test(args):
         metrics[obj]['image-auroc'] = 0
         metrics[obj]['image-ap'] = 0
 
-    prompt_learner = DHRCLIP_PromptLearner(model.to("cpu"), AnomalyCLIP_parameters)
+    prompt_learner = DHRCLIP_PromptLearner(model.to("cpu"), DHRCLIP_parameters)
     
     checkpoint = torch.load(args.checkpoint_path)
     prompt_learner.load_state_dict(checkpoint["prompt_learner"])
@@ -228,7 +228,7 @@ def test(args):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser("AnomalyCLIP", add_help=True)
+    parser = argparse.ArgumentParser("DHRCLIP", add_help=True)
     # paths
     parser.add_argument("--data_path", type=str, default="./data/mvtec", help="path to test dataset")
     parser.add_argument("--save_path", type=str, default='./results/9_12_4_multiscale_proposed/zero_shot', help='path to save results')

@@ -100,20 +100,10 @@ class DHRCLIP_PromptLearner(nn.Module):
 
         self.state_normal_list = [
             "{}",
-            # 'normal {}',
-            # 'flawless {}',
-            # 'perfect {}',
-            # 'unblemished {}',
-            # '{} without flaw',
-            # '{} without defect',
-            # '{} without damage'
         ]
 
         self.state_anomaly_list = [
             'damaged {}',
-            # '{} with flaw',
-            # '{} with defect',
-            # '{} with damage',
         ]
         
         normal_num = len(self.state_normal_list)
@@ -122,19 +112,19 @@ class DHRCLIP_PromptLearner(nn.Module):
         self.anormaly_num = anormaly_num
 
         if ctx_init_pos and ctx_init_neg:
-            # use given words to initialize context vectors
+
             ctx_init_pos = ctx_init_pos.replace("_", " ")
             ctx_init_neg = ctx_init_neg.replace("_", " ")
             n_ctx_pos = len(ctx_init_pos.split(" "))
             n_ctx_neg = len(ctx_init_neg.split(" "))
-            #初始化text成bpd编码
+
             prompt_pos = tokenize(ctx_init_pos)
             prompt_neg = tokenize(ctx_init_neg)
             with torch.no_grad():
-                #生成相应的text embedding
+
                 embedding_pos = clip_model.token_embedding(prompt_pos).type(dtype)
                 embedding_neg = clip_model.token_embedding(prompt_neg).type(dtype)
-            #这些是去除出来EOS 和 # CLS, EOS， 获得可学习的textual prompt
+
             ctx_vectors_pos = embedding_pos[0, 1: 1 + n_ctx_pos, :]
             ctx_vectors_neg = embedding_neg[0, 1: 1 + n_ctx_neg, :]
             prompt_prefix_pos = ctx_init_pos
@@ -155,10 +145,7 @@ class DHRCLIP_PromptLearner(nn.Module):
                 #这里是cls是类的个数，n_ctx_pos代表learnable token的长度，ctx_dim表示prompt的dimension
                 ctx_vectors_pos = torch.empty(self.n_cls, self.normal_num, n_ctx_pos, ctx_dim, dtype=dtype)
                 ctx_vectors_neg = torch.empty(self.n_cls, self.anormaly_num, n_ctx_neg, ctx_dim, dtype=dtype)
-            else:
-                print("Initializing a generic context")
-                ctx_vectors_pos = torch.empty(n_ctx_pos, ctx_dim, dtype=dtype)
-                ctx_vectors_neg = torch.empty(n_ctx_neg, ctx_dim, dtype=dtype)
+
             nn.init.normal_(ctx_vectors_pos, std=0.02)
             nn.init.normal_(ctx_vectors_neg, std=0.02)
             prompt_prefix_pos = " ".join(["X"] * n_ctx_pos)
@@ -182,10 +169,7 @@ class DHRCLIP_PromptLearner(nn.Module):
 
         prompts_pos = [prompt_prefix_pos +  " " + template.format(name)+ "." for template in self.state_normal_list for name in classnames]
         prompts_neg = [prompt_prefix_neg +  " " + template.format(name)+ "." for template in self.state_anomaly_list for name in classnames]
-        # print(prompts_pos)
-        # print(prompts_neg)
-        # print(len(prompts_pos))
-        # print(len(prompts_neg))
+
         tokenized_prompts_pos = []
         tokenized_prompts_neg = []
 
@@ -195,7 +179,7 @@ class DHRCLIP_PromptLearner(nn.Module):
             tokenized_prompts_neg.append(tokenize(p_neg))
         tokenized_prompts_pos = torch.cat(tokenized_prompts_pos)
         tokenized_prompts_neg = torch.cat(tokenized_prompts_neg)
-        #生成相应的text embedding
+
         with torch.no_grad():
             embedding_pos = clip_model.token_embedding(tokenized_prompts_pos).type(dtype)
             embedding_neg = clip_model.token_embedding(tokenized_prompts_neg).type(dtype)
@@ -218,7 +202,7 @@ class DHRCLIP_PromptLearner(nn.Module):
 
         self.n_ctx_pos = n_ctx_pos
         self.n_ctx_neg = n_ctx_neg
-        # tokenized_prompts = torch.cat([tokenized_prompts_pos, tokenized_prompts_neg], dim=0)  # torch.Tensor
+
         self.register_buffer("tokenized_prompts_pos", tokenized_prompts_pos)
         self.register_buffer("tokenized_prompts_neg", tokenized_prompts_neg)
         print("tokenized_prompts shape", self.tokenized_prompts_pos.shape, self.tokenized_prompts_neg.shape)
@@ -230,7 +214,6 @@ class DHRCLIP_PromptLearner(nn.Module):
         ctx_pos = self.ctx_pos
         ctx_neg = self.ctx_neg
 
-        # print("shape", self.ctx_pos[0:1].shape, ctx_pos.shape)
         prefix_pos = self.token_prefix_pos
         prefix_neg = self.token_prefix_neg
         suffix_pos = self.token_suffix_pos
@@ -273,9 +256,9 @@ class DHRCLIP_PromptLearner(nn.Module):
 if __name__ == '__main__':
     import DHRCLIP_lib
 
-    AnomalyCLIP_parameters = {"Prompt_length": 12, "learnabel_text_embedding_depth": 9, "learnabel_text_embedding_length": 4}
-    model, _ = DHRCLIP_lib.load("ViT-L/14@336px", device='cuda', design_details = AnomalyCLIP_parameters)
-    prompt_learner = AnomalyCLIP_PromptLearner(model.to('cpu'), AnomalyCLIP_parameters)
+    DHRCLIPCLIP_parameters = {"Prompt_length": 12, "learnabel_text_embedding_depth": 9, "learnabel_text_embedding_length": 4}
+    model, _ = DHRCLIP_lib.load("ViT-L/14@336px", device='cuda', design_details = DHRCLIPCLIP_parameters)
+    prompt_learner = DHRCLIP_PromptLearner(model.to('cpu'), DHRCLIPCLIP_parameters)
     
     prompts, tokenized_prompts, compound_prompts_text = prompt_learner(cls_id = None)
 

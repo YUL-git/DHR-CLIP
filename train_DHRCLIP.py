@@ -28,15 +28,15 @@ def train(args):
     preprocess, target_transform, patch_transform = get_transform(args)
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
-    AnomalyCLIP_parameters = {"Abnormal_Prompt_length": args.ab_ctx, "Prompt_length": args.n_ctx, "learnabel_text_embedding_depth": args.depth, "learnabel_text_embedding_length": args.t_n_ctx}
+    DHRCLIP_parameters = {"Abnormal_Prompt_length": args.ab_ctx, "Prompt_length": args.n_ctx, "learnabel_text_embedding_depth": args.depth, "learnabel_text_embedding_length": args.t_n_ctx}
 
-    model, _ = DHRCLIP_lib.load("ViT-L/14@336px", device=device, design_details = AnomalyCLIP_parameters)
+    model, _ = DHRCLIP_lib.load("ViT-L/14@336px", device=device, design_details = DHRCLIP_parameters)
     model.eval()
     
     train_data = Dataset(root=args.train_data_path, transform=preprocess, target_transform=target_transform, patch_transform=patch_transform, dataset_name = args.dataset, args=args)
     train_dataloader = torch.utils.data.DataLoader(train_data, batch_size=args.batch_size, shuffle=True)
 
-    prompt_learner = DHRCLIP_PromptLearner(model.to("cpu"), AnomalyCLIP_parameters)
+    prompt_learner = DHRCLIP_PromptLearner(model.to("cpu"), DHRCLIP_parameters)
     prompt_learner.to(device)
     model.to(device)
     model.visual.DAPM_replace(DPAM_layer = args.dpam)
@@ -147,7 +147,7 @@ def train(args):
             torch.save({"prompt_learner": prompt_learner.state_dict()}, ckp_path)
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser("AnomalyCLIP", add_help=True)
+    parser = argparse.ArgumentParser("DHRCLIP", add_help=True)
     parser.add_argument("--train_data_path", type=str, default="./data/visa", help="train dataset path")
     parser.add_argument("--save_path", type=str, default='./checkpoints/9_12_4_multiscale_proposed/', help='path to save results')
 
