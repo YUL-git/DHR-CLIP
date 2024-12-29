@@ -162,5 +162,5 @@ cython_debug/
 #.idea/
 
 data/
-results/9_12_4_DHRCLIP_mvtec/imgs/
-results/9_12_4_DHRCLIP_visa/imgs/
+results/9_12_4_DHRCLIP_mvtec/zero_shot_visa/imgs
+results/9_12_4_DHRCLIP_visa/zero_shot/imgs
