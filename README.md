@@ -12,11 +12,13 @@ Zero-shot anomaly segmentation (ZSAS) is crucial for detecting and localizing de
 ## Overview of DHR-CLIP
 ![overview](https://github.com/YUL-git/DHR-CLIP/blob/main/asset/figure_2.png)
 
-## Main idea of DHR-CLIP
+## Motivation of DHR-CLIP
 ![overview](https://github.com/YUL-git/DHR-CLIP/blob/main/asset/figure_1.png)
 
 ## Qualitative results
 ![overview](https://github.com/YUL-git/DHR-CLIP/blob/main/asset/figure_3.png)
 
 ## Quantitative results
-![overview](https://github.com/YUL-git/DHR-CLIP/blob/main/asset/figure_4.png)
+<p align="center">
+  <img src="https://github.com/YUL-git/DHR-CLIP/blob/main/asset/figure_4.png" alt="overview">
+</p>
