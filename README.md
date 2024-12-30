@@ -1,7 +1,9 @@
 # DHR-CLIP
 >
 > by [Jiyul Ham](), [Jun-Geal Baek]().
-
+> Accepted to ICAIIC 2025 in Fukuoka, Japan
+>
+>
 ### [paper]()
 
 ## Abstract
