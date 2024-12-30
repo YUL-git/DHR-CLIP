@@ -34,7 +34,7 @@ def train(args):
     model.eval()
     
     train_data = Dataset(root=args.train_data_path, transform=preprocess, target_transform=target_transform, patch_transform=patch_transform, dataset_name = args.dataset, args=args)
-    train_dataloader = torch.utils.data.DataLoader(train_data, batch_size=args.batch_size, shuffle=True)
+    train_dataloader = torch.utils.data.DataLoader(train_data, batch_size=args.batch_size, shuffle=True, num_workers=4, pin_memory=True,  persistent_workers=True)
 
     prompt_learner = DHRCLIP_PromptLearner(model.to("cpu"), DHRCLIP_parameters)
     prompt_learner.to(device)

@@ -26,6 +26,7 @@ from visualization import visualizer
 from metrics import image_level_metrics, pixel_level_metrics
 from tqdm import tqdm
 from scipy.ndimage import gaussian_filter
+
 def test(args):
     img_size = args.image_size
     features_list = args.features_list
@@ -43,7 +44,7 @@ def test(args):
 
     preprocess, target_transform, patch_transform = get_transform(args)
     test_data = Dataset(root=args.data_path, transform=preprocess, target_transform=target_transform, patch_transform=patch_transform, dataset_name = args.dataset, args=args)
-    test_dataloader = torch.utils.data.DataLoader(test_data, batch_size=1, shuffle=False)
+    test_dataloader = torch.utils.data.DataLoader(test_data, batch_size=1, shuffle=False, num_workers=4, pin_memory=True,  persistent_workers=True)
     obj_list = test_data.obj_list
 
 

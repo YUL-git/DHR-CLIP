@@ -1,5 +1,5 @@
 #------------------------------------Proposed method------------------------------------#
-device=0
+device=1
 
 LOG=${save_dir}"res.log"
 echo ${LOG}
@@ -15,7 +15,7 @@ for i in "${!depth[@]}";do
 
         CUDA_VISIBLE_DEVICES=${device} python train_DHRCLIP.py --dataset mvtec --train_data_path /home/jiyul/SPS_JY/AnomalyCLIP/data/mvtec \
         --save_path ${save_dir} \
-        --features_list 6 12 18 24 --image_size 518  --batch_size 8 --print_freq 1 \
+        --features_list 6 12 18 24 --image_size 336  --batch_size 8 --print_freq 1 \
         --epoch 15 --save_freq 1 --depth ${depth[i]} --n_ctx ${n_ctx[j]} --t_n_ctx ${t_n_ctx[0]} --dpam 20
     wait
 
@@ -26,7 +26,7 @@ for i in "${!depth[@]}";do
 
         CUDA_VISIBLE_DEVICES=${device} python test_DHRCLIP.py --dataset ${dataset[z]} \
         --data_path /home/jiyul/SPS_JY/AnomalyCLIP/data/${dataset[z]} --save_path ${result_dir} --checkpoint_path ${save_dir}epoch_15.pth \
-        --features_list 6 12 18 24 --image_size 518 --depth ${depth[i]} --n_ctx ${n_ctx[j]} --t_n_ctx ${t_n_ctx[0]} --sigma 8 --dpam 20 --metrics pixel-level
+        --features_list 6 12 18 24 --image_size 336 --depth ${depth[i]} --n_ctx ${n_ctx[j]} --t_n_ctx ${t_n_ctx[0]} --sigma 8 --dpam 20 --metrics pixel-level
         wait
         done
     done
@@ -45,13 +45,13 @@ for i in "${!depth[@]}";do
         
         CUDA_VISIBLE_DEVICES=${device} python train_DHRCLIP.py --dataset visa --train_data_path /home/jiyul/SPS_JY/AnomalyCLIP/data/visa \
         --save_path ${save_dir} \
-        --features_list 6 12 18 24 --image_size 518  --batch_size 8 --print_freq 1 \
+        --features_list 6 12 18 24 --image_size 336  --batch_size 8 --print_freq 1 \
         --epoch 15 --save_freq 1 --depth ${depth[i]} --n_ctx ${n_ctx[j]} --t_n_ctx ${t_n_ctx[0]} --dpam 20
         wait
         
         CUDA_VISIBLE_DEVICES=${device} python test_DHRCLIP.py --dataset mvtec \
         --data_path /home/jiyul/SPS_JY/AnomalyCLIP/data/mvtec --save_path ./results/${base_dir}/zero_shot --checkpoint_path ${save_dir}epoch_15.pth \
-        --dpam 20 --features_list 6 12 18 24 --image_size 518 --depth ${depth[i]} --n_ctx ${n_ctx[j]} --t_n_ctx ${t_n_ctx[0]} --metrics pixel-level
+        --dpam 20 --features_list 6 12 18 24 --image_size 336 --depth ${depth[i]} --n_ctx ${n_ctx[j]} --t_n_ctx ${t_n_ctx[0]} --metrics pixel-level
         wait
     done
 done
