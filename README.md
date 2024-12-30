@@ -20,3 +20,23 @@ Zero-shot anomaly segmentation (ZSAS) is crucial for detecting and localizing de
 <p align="center">
   <img src="https://github.com/YUL-git/DHR-CLIP/blob/main/asset/figure_4.png" alt="overview">
 </p>
+
+## Reproducibility
+Implementation environment 
+* Ubuntu==22.04.1 LTS
+* cuda==12.1.0
+* cudnn==8
+* python==3.10
+* pytorch==2.0.0
+
+First, download MVTecAD and VisA datasets. and then generate json files.
+```
+cd generate_dataset_json
+python mvtec.py
+python visa.py
+```
+
+Second, run DHRCLIP python file.
+```
+bash run_DHRCLIP.sh
+```
