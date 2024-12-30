@@ -1,11 +1,9 @@
 import torch.utils.data as data
 import json
-import random
 from PIL import Image
 import numpy as np
-import torch
 import os
-from utils_anyres import divide_to_patches, resize_and_patch_image
+from utils_anyres import resize_and_patch_image
 
 def generate_class_info(dataset_name):
     class_name_map_class_id = {}
@@ -74,6 +72,7 @@ class Dataset(data.Dataset):
             else:
                 img_mask = np.array(Image.open(os.path.join(self.root, mask_path)).convert('L')) > 0
                 img_mask = Image.fromarray(img_mask.astype(np.uint8) * 255, mode='L')
+        
         # transforms
         img, patch_imgs = resize_and_patch_image(img, resize_resolution=self.resize_resolution, patch_size=self.patch_size)
 
@@ -92,8 +91,7 @@ if __name__=='__main__':
     import argparse
     import numpy as np
     import os
-    import random
-    from utils import get_transform
+    from utils_anyres import get_transform
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--train_data_path', type=str, default='data/visa')

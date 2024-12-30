@@ -4,3 +4,5 @@
 24-12-30 12:24:07.326 - INFO: epoch [4/15], loss:3.8048, image_loss:0.7809
 24-12-30 12:30:51.873 - INFO: epoch [5/15], loss:3.7955, image_loss:0.8060
 24-12-30 12:37:36.656 - INFO: epoch [6/15], loss:3.8009, image_loss:0.7985
+24-12-30 12:44:22.182 - INFO: epoch [7/15], loss:3.7954, image_loss:0.8074
+24-12-30 12:51:07.615 - INFO: epoch [8/15], loss:3.7905, image_loss:0.7996

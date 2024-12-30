@@ -1,17 +1,18 @@
-import DHRCLIP_lib
-import torch
-import argparse
-import torch.nn.functional as F
-from prompt_DHRCLIP import DHRCLIP_PromptLearner
-from loss import FocalLoss, BinaryDiceLoss
-from utils_anyres import normalize
-from dataset_anyres import Dataset
-from logger import get_logger
-from tqdm import tqdm
-import numpy as np
 import os
 import random
+import numpy as np
+import torch
+import torch.nn.functional as F
+
+import DHRCLIP_lib
+from prompt_DHRCLIP import DHRCLIP_PromptLearner
+from loss import FocalLoss, BinaryDiceLoss
+from dataset_anyres import Dataset
 from utils_anyres import get_transform
+
+from logger import get_logger
+from tqdm import tqdm
+import argparse
 
 def setup_seed(seed):
     torch.manual_seed(seed)

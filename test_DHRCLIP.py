@@ -1,17 +1,23 @@
-import DHRCLIP_lib
-import torch
-import argparse
-import torch.nn.functional as F
-from prompt_DHRCLIP import DHRCLIP_PromptLearner
-from utils import normalize
-from dataset_anyres import Dataset
-from logger import get_logger
-from tqdm import tqdm
-
+import os
 import random
 import numpy as np
+import torch
+import torch.nn.functional as F
+
+import DHRCLIP_lib
+from prompt_DHRCLIP import DHRCLIP_PromptLearner
+from loss import FocalLoss, BinaryDiceLoss
+from dataset_anyres import Dataset
+from utils_anyres import get_transform, normalize
+
 from tabulate import tabulate
-from utils_anyres import get_transform
+from logger import get_logger
+from tqdm import tqdm
+import argparse
+
+from visualization import visualizer
+from metrics import image_level_metrics, pixel_level_metrics
+from scipy.ndimage import gaussian_filter
 
 def setup_seed(seed):
     torch.manual_seed(seed)
@@ -20,12 +26,6 @@ def setup_seed(seed):
     random.seed(seed)
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
-
-from visualization import visualizer
-
-from metrics import image_level_metrics, pixel_level_metrics
-from tqdm import tqdm
-from scipy.ndimage import gaussian_filter
 
 def test(args):
     img_size = args.image_size

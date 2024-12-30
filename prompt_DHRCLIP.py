@@ -1,11 +1,7 @@
-import os
 from typing import Union, List
 from pkg_resources import packaging
 import torch
-import numpy as np
 from DHRCLIP_lib.simple_tokenizer import SimpleTokenizer as _Tokenizer
-# from open_clip import tokenizer
-# simple_tokenizer = tokenizer.SimpleTokenizer()
 from copy import deepcopy
 import torch.nn as nn
 
@@ -142,7 +138,6 @@ class DHRCLIP_PromptLearner(nn.Module):
             # Random Initialization
             if True:
                 print("Initializing class-specific contexts")
-                #这里是cls是类的个数，n_ctx_pos代表learnable token的长度，ctx_dim表示prompt的dimension
                 ctx_vectors_pos = torch.empty(self.n_cls, self.normal_num, n_ctx_pos, ctx_dim, dtype=dtype)
                 ctx_vectors_neg = torch.empty(self.n_cls, self.anormaly_num, n_ctx_neg, ctx_dim, dtype=dtype)
 
@@ -150,6 +145,7 @@ class DHRCLIP_PromptLearner(nn.Module):
             nn.init.normal_(ctx_vectors_neg, std=0.02)
             prompt_prefix_pos = " ".join(["X"] * n_ctx_pos)
             prompt_prefix_neg = " ".join(["X"] * n_ctx_neg)
+            
         self.compound_prompts_depth = design_details["learnabel_text_embedding_depth"]
         self.compound_prompts_text = nn.ParameterList([nn.Parameter(torch.empty(self.text_encoder_n_ctx, ctx_dim))
                                                         for _ in range(self.compound_prompts_depth - 1)])
