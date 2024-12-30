@@ -6,3 +6,10 @@
 24-12-30 12:37:36.656 - INFO: epoch [6/15], loss:3.8009, image_loss:0.7985
 24-12-30 12:44:22.182 - INFO: epoch [7/15], loss:3.7954, image_loss:0.8074
 24-12-30 12:51:07.615 - INFO: epoch [8/15], loss:3.7905, image_loss:0.7996
+24-12-30 12:57:52.901 - INFO: epoch [9/15], loss:3.7940, image_loss:0.8145
+24-12-30 13:04:38.244 - INFO: epoch [10/15], loss:3.7927, image_loss:0.8126
+24-12-30 13:11:23.563 - INFO: epoch [11/15], loss:3.7879, image_loss:0.8096
+24-12-30 13:18:07.398 - INFO: epoch [12/15], loss:3.7935, image_loss:0.8078
+24-12-30 13:24:50.524 - INFO: epoch [13/15], loss:3.7896, image_loss:0.8318
+24-12-30 13:31:33.553 - INFO: epoch [14/15], loss:3.7898, image_loss:0.8214
+24-12-30 13:38:16.995 - INFO: epoch [15/15], loss:3.7891, image_loss:0.8324
