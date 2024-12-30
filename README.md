@@ -1,5 +1,5 @@
 # DHR-CLIP
-> Official implementation of "DHR-CLIP: Dynamic High-Resolution Object-agnostic Prompt Learning for Zero-shot Anomaly Segmentation"
+> Official implementation of "DHR-CLIP: Dynamic High-Resolution Object-agnostic Prompt Learning for Zero-shot Anomaly Segmentation"  
 > by [Jiyul Ham](), [Jun-Geal Baek]().  
 > Accepted to ICAIIC 2025 in Fukuoka, Japan
 
