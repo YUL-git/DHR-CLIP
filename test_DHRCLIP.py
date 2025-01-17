@@ -6,7 +6,6 @@ import torch.nn.functional as F
 
 import DHRCLIP_lib
 from prompt_DHRCLIP import DHRCLIP_PromptLearner
-from loss import FocalLoss, BinaryDiceLoss
 from dataset_anyres import Dataset
 from utils_anyres import get_transform, normalize
 
