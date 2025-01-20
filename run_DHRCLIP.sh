@@ -13,7 +13,7 @@ for i in "${!depth[@]}";do
         base_dir=${depth[i]}_${n_ctx[j]}_${t_n_ctx[0]}_DHRCLIP_mvtec
         save_dir=./checkpoints/${base_dir}/
 
-        CUDA_VISIBLE_DEVICES=${device} python train_DHRCLIP.py --dataset mvtec --train_data_path /home/jiyul/SPS_JY/AnomalyCLIP/data/mvtec \
+        CUDA_VISIBLE_DEVICES=${device} python train_DHRCLIP.py --dataset mvtec --train_data_path /home/jiyul/SPS_JY/GlocalCLIP/data/mvtec \
         --save_path ${save_dir} \
         --features_list 6 12 18 24 --image_size 336  --batch_size 8 --print_freq 1 \
         --epoch 15 --save_freq 1 --depth ${depth[i]} --n_ctx ${n_ctx[j]} --t_n_ctx ${t_n_ctx[0]} --dpam 20
@@ -25,7 +25,7 @@ for i in "${!depth[@]}";do
         mkdir -p ${result_dir}
 
         CUDA_VISIBLE_DEVICES=${device} python test_DHRCLIP.py --dataset ${dataset[z]} \
-        --data_path /home/jiyul/SPS_JY/AnomalyCLIP/data/${dataset[z]} --save_path ${result_dir} --checkpoint_path ${save_dir}epoch_15.pth \
+        --data_path /home/jiyul/SPS_JY/GlocalCLIP/data/${dataset[z]} --save_path ${result_dir} --checkpoint_path ${save_dir}epoch_15.pth \
         --features_list 6 12 18 24 --image_size 336 --depth ${depth[i]} --n_ctx ${n_ctx[j]} --t_n_ctx ${t_n_ctx[0]} --sigma 8 --dpam 20 --metrics pixel-level
         wait
         done
